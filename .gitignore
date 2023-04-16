@@ -1,0 +1,7 @@
+#IDE Specific configuration folders
+
+# Build directories
+cmake-build-debug/
+
+# Output directories
+out/
