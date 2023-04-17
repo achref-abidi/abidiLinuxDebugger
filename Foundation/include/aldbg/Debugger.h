@@ -8,13 +8,14 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <unordered_map>
 
-//#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/ptrace.h>
 
 #include "linenoise.h"
+#include "BreakPoint.h"
 
 namespace aldbg {
 
@@ -26,8 +27,11 @@ namespace aldbg {
         // To run the debugger
         void run();
 
-        // Continue execution of the debuggee until the next signal
+        // Continue execution of the debuggee until the next signal/breakpoint
         void continueExecution() const;
+
+        // set breakpoints
+        void setBreakPointAtAddress(std::intptr_t address);
 
         // Helper function for parsing a single input line
         static std::vector<std::string> parseLine(const std::string& line);
@@ -36,12 +40,13 @@ namespace aldbg {
 
     protected:
         // User command handler
-        void handleCommand(const std::string& line) const;
+        void handleCommand(const std::string& line);
         static void showHelp() ;
         static void showInfo() ;
 
     private:
         pid_t m_debuggeePid;
         std::string m_debuggeeName;
+        std::unordered_map<std::intptr_t , BreakPoint> m_breakPoints;
     };
 }// end namespace

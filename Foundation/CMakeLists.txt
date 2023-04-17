@@ -2,6 +2,7 @@
 set(ALDBG_SRC
         src/Debugger.cpp
         src/Launcher.cpp
+        src/BreakPoint.cpp
         )
 
 set(ALDBG_INC

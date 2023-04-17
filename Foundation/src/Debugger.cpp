@@ -27,13 +27,18 @@ void aldbg::Debugger::run() {
     }
 }
 
-void aldbg::Debugger::handleCommand(const std::string& line) const {
+void aldbg::Debugger::handleCommand(const std::string& line){
     std::vector<std::string> args = parseLine(line);
-    if(isPrefix(args[0], "continue")){
+    std::string command = args[0];
+
+    if(isPrefix(command, "continue")) {
         continueExecution();
-    }else if(isPrefix(args[0], "exit")){
+    }else if(isPrefix(command, "break")){
+        std::string addr(args[1], 2);
+        setBreakPointAtAddress(stol(addr, 0,16));
+    }else if(isPrefix(command, "exit")){
         exit(0); //todo: should kill the child process too.
-    }else if(isPrefix(args[0], "help")){
+    }else if(isPrefix(command, "help")){
         showHelp();
     }
     else{
@@ -76,5 +81,16 @@ void aldbg::Debugger::showHelp() {
 void aldbg::Debugger::showInfo() {
     std::cout << "AbidiLinuxDebugger : is a x86 linux debugger made for learning purposes.\n";
     std::cout << "Press 'h' or 'help' to list out the available command\n\n";
+}
+
+void aldbg::Debugger::setBreakPointAtAddress(std::intptr_t address) {
+
+    if(m_breakPoints.find(address) == m_breakPoints.end()){
+        std::cout << "Set breakpoint at address 0x" << std::hex << address << "\n";
+
+        BreakPoint bp(m_debuggeePid, address);
+        bp.enable();
+        m_breakPoints.insert(std::make_pair(address, bp));
+    }
 }
 
