@@ -5,7 +5,6 @@
 #include <iostream>
 #include<unistd.h>       //< For fork()
 #include <sys/ptrace.h>  //< For ptrace()
-#include "linenoise.h"
 #include "Debugger.h"
 
 int main(int argc, char *argv[]) {
@@ -25,8 +24,8 @@ int main(int argc, char *argv[]) {
         //todo: check if execl works fine
     } else if (pid >= 1) {//we're in the parent process
         //execute debugger
-        //debugger dbg{prog, pid};
-        //dbg.run();
+        aldbg::Debugger dbg{prog, pid};
+        dbg.run();
 
         /**
          * @note the child won't get here because we called exec()
@@ -43,5 +42,7 @@ int main(int argc, char *argv[]) {
          * We can wait until this signal is sent using the waitpid function.
          */
 
+    }else{
+        std::cout << "Failed to fork!\n";
     }
 }
