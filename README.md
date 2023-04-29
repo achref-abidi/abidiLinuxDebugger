@@ -2,6 +2,7 @@
 This project was done following this tutorial:
 [Writing a linux debugger](https://blog.tartanllama.xyz/writing-a-linux-debugger-setup/#fn:1)
 
+Another greate one : [multiprocessing](https://web.stanford.edu/class/cs110/summer-2021/assignments/assign3-multiprocessing/).
 # Used dependencies
 - [linenoise](https://github.com/antirez/linenoise).
 It is a replacement for GNU readline and libedit.

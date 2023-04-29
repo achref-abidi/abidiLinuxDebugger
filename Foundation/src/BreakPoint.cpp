@@ -18,8 +18,10 @@ std::intptr_t aldbg::BreakPoint::getAddress() const{
 void aldbg::BreakPoint::enable() {
     //1. save a copy of the content of m_address (!ptrace operate on a whole word)
     long data = ptrace(PTRACE_PEEKDATA, m_pid, m_address, nullptr);// return a 64 bits data(a word)
-    //std::cout << std::hex << data << "\n";
+
     m_savedData = static_cast<uint8_t>(data & 0xFF); // we will just take the Least Significant Byte.
+    // ^^^^^^^^ this related to endianess
+    // https://www.reddit.com/r/cpp_questions/comments/t1qbhn/bytes_are_reversed_when_reading_16_bits_from_a/
 
     //2. write `int 3` === 0xCC
     uint64_t dataToInsert = (data & ~0xFF) | INT3;

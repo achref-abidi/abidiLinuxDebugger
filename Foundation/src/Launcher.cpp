@@ -3,27 +3,48 @@
 //
 
 #include <iostream>
-#include<unistd.h>       //< For fork()
-#include <sys/ptrace.h>  //< For ptrace()
+#include <unistd.h>     //< For fork()
+#include <sys/ptrace.h> //< For ptrace()
+#include <errno.h>      //< for errno
+#include <string.h>     //< For strerror_r()
 #include "Debugger.h"
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        std::cerr << "Program name not specified";
+int main(int argc, char *argv[])
+{
+    std::string prog;
+#ifdef _NDEBUG
+    if (argc < 2)
+    {
+        std::cerr << "Program name was not specified";
         return EXIT_FAILURE;
     }
-
-    auto prog = argv[1];
+    prog = argv[1];
+#else
+    prog = "./Debugee";
+#endif
 
     auto pid = fork();
-    if (pid == 0) {//we're in the child process
+    if (pid == 0)
+    {
+        // we're in the child process
+        int statusCode;
         // PTRACE_TRACEME request tells us that: "hey i wanna be traced"
         ptrace(PTRACE_TRACEME, 0, nullptr, nullptr);
-        //execute debugee
-        execl(prog, prog, nullptr);
-        //todo: check if execl works fine
-    } else if (pid >= 1) {//we're in the parent process
-        //execute debugger
+        // execute debugee
+        statusCode = execl(prog.c_str(), prog.c_str(), nullptr);
+        if (statusCode == -1)
+        {
+            std::cout << "Child terminated Incorrectely" << std::endl;
+            char buffer[256];
+            char *errorMsg = strerror_r(errno, buffer, 256);         // GNU-specific version, Linux default
+            std::cout << "Error message: " << errorMsg << std::endl; // return value has to be used since buffer might not be modified
+            return EXIT_FAILURE;                                     // To send error to the parent proc.
+        }
+    }
+    else if (pid >= 1)
+    {
+        // we're in the parent process
+        // execute debugger
         aldbg::Debugger dbg{prog, pid};
         dbg.run();
 
@@ -41,8 +62,9 @@ int main(int argc, char *argv[]) {
          * When the traced process is launched, it will be sent a SIGTRAP signal, which is a trace or breakpoint trap.
          * We can wait until this signal is sent using the waitpid function.
          */
-
-    }else{
+    }
+    else
+    {
         std::cout << "Failed to fork!\n";
     }
 }
