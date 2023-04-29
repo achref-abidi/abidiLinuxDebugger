@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps :
+    -uses: actions/checkout@v3
+    
     -name: clone vcpkg
       run: git clone https://github.com/microsoft/vcpkg
     
@@ -25,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    -uses: actions/checkout@v3
+
     -name: Git Sumbodule Update
       run: |
         git submodule update --init --recursive
