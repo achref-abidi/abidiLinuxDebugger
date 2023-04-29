@@ -17,6 +17,7 @@ project(alDbg)
 ## The compiled binaries will reside inside out/bin inside the binaryDir set in CMakePresets.json 
 ##
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/out/bin)
+#set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*,modernize-*")
 
 ##
 ## OPTIONS

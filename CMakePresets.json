@@ -7,21 +7,34 @@
     },
     "configurePresets": [
         {
-            "name": "vcpkg-dev",
+            "name": "base",
             "hidden": true,
+            "description": "Sets vcpkg and build directory ",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cmakeExecutable": "",
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": ""
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "FILEPATH",
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                }
+            },
+            "environment": {
+                "VCPKG_ROOT": "~/workspace/vcpkg"
             }
+        },
+        {
+            "name": "linux-base",
+            "hidden": true,
+            "description": "To set the architecture, compiler and linux as a host os"
         },
         {
             "name": "debug-Makefiles",
             "inherits": [
-                "vcpkg-dev"
+                "base"
             ],
             "displayName": "Makefiles Debug Build",
             "description": "Debug build options for Makefiles Generator",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_FLAGS": "-Wsuggest-override",
@@ -31,12 +44,11 @@
         {
             "name": "release-Makefiles",
             "inherits": [
-                "vcpkg-dev"
+                "base"
             ],
             "displayName": "Makefiles Release Build",
             "description": "Release build options for Makefiles Generator",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_CXX_FLAGS": "-Wsuggest-override",
@@ -46,6 +58,11 @@
     ],
     "buildPresets": [
         {
+            "name": "core-build",
+            "hidden": true,
+            "description": ""
+        },
+        {
             "name": "alDbg-debug-makefiles",
             "description": "Debug alDbg using Makefiles",
             "displayName": "alDbg Debug Makefiles",
@@ -53,7 +70,10 @@
                 "alDbg",
                 "Debugee"
             ],
-            "configurePreset": "debug-Makefiles"
+            "configurePreset": "debug-Makefiles",
+            "inherits": [
+                "core-build"
+            ]
         },
         {
             "name": "alDbg-release-makefiles",
@@ -62,7 +82,10 @@
             "targets": [
                 "alDbg"
             ],
-            "configurePreset": "release-Makefiles"
+            "configurePreset": "release-Makefiles",
+            "inherits": [
+                "core-build"
+            ]
         }
     ]
 }
