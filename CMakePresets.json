@@ -1,0 +1,68 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "vcpkg-dev",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": ""
+            }
+        },
+        {
+            "name": "debug-Makefiles",
+            "inherits": [
+                "vcpkg-dev"
+            ],
+            "displayName": "Makefiles Debug Build",
+            "description": "Debug build options for Makefiles Generator",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_FLAGS": "-Wsuggest-override",
+                "BUILD_SAMPLES": true
+            }
+        },
+        {
+            "name": "release-Makefiles",
+            "inherits": [
+                "vcpkg-dev"
+            ],
+            "displayName": "Makefiles Release Build",
+            "description": "Release build options for Makefiles Generator",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "-Wsuggest-override",
+                "BUILD_SAMPLES": false
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "alDbg-debug-makefiles",
+            "description": "Debug alDbg using Makefiles",
+            "displayName": "alDbg Debug Makefiles",
+            "targets": [
+                "alDbg",
+                "Debugee"
+            ],
+            "configurePreset": "debug-Makefiles"
+        },
+        {
+            "name": "alDbg-release-makefiles",
+            "description": "Release alDbg using Makefiles",
+            "displayName": "alDbg Release Makefiles",
+            "targets": [
+                "alDbg"
+            ],
+            "configurePreset": "release-Makefiles"
+        }
+    ]
+}

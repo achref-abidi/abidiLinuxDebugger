@@ -1,7 +1,5 @@
 #IDE Specific configuration folders
+.idea
 
 # Build directories
-cmake-build-debug/
-
-# Output directories
-out/
+build/
