@@ -27,11 +27,11 @@ jobs:
 
     - name: Configure CMake
       # automatic create build folders
-      run: cmake -B ${{github.workspace}}/build # HACK
+      run: cmake -S . --preset="debug-Makefiles"
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build --preset "alDbg-debug-makefiles"
+      run: cmake --build . --preset="alDbg-debug-makefiles"
 
     #- name: Test
       #working-directory: ${{github.workspace}}/build
