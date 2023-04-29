@@ -57,5 +57,6 @@ endif()
 ## EXECUTABLE
 ## Building the debugger
 ##
+message(STATUS ${LINENOISE_SRC})
 add_executable(${PROJECT_NAME} ${ALDBG_SRC} ${LINENOISE_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${LINENOISE_INC_DIR} ${ALDBG_INC})
