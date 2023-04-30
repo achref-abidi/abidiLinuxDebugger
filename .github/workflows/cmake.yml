@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
-defaults:
-  runs-on: ubuntu-latest
-  run:
-    shell: bash
-    working-directory: scripts
+#defaults:
+#  runs-on: ubuntu-latest
+#  run:
+#    shell: bash
+#    working-directory: scripts
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
