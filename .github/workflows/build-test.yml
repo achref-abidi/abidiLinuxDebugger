@@ -33,6 +33,7 @@ jobs:
 
     - name: install vcpkg
       run: |
+        chmod +x configVCPKG.sh
         ./configVCPKG.sh
 
     - name: Configure CMake
