@@ -29,7 +29,6 @@ jobs:
 
     - name: update references
       run: |
-        apt-get update
         git submodule update --init --recursive
 
     - name: install vcpkg
