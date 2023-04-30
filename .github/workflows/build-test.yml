@@ -29,7 +29,8 @@ jobs:
 
     - name: update references
       run: |
-        git submodule update --init --recursive
+        chmod +x envSetup.sh
+        ./envSetup.sh
 
     - name: install vcpkg
       run: |
