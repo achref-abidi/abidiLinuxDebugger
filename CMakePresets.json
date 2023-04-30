@@ -17,9 +17,6 @@
                     "type": "FILEPATH",
                     "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
                 }
-            },
-            "environment": {
-                "VCPKG_ROOT": "~/vcpkg"
             }
         },
         {
@@ -66,10 +63,6 @@
             "name": "alDbg-debug-makefiles",
             "description": "Debug alDbg using Makefiles",
             "displayName": "alDbg Debug Makefiles",
-            "targets": [
-                "alDbg",
-                "Debugee"
-            ],
             "configurePreset": "debug-Makefiles",
             "inherits": [
                 "core-build"
@@ -86,6 +79,14 @@
             "inherits": [
                 "core-build"
             ]
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "test-alDbg",
+            "description": "Test alDbg",
+            "displayName": "Test alDbg",
+            "configurePreset": "debug-Makefiles"
         }
     ]
 }

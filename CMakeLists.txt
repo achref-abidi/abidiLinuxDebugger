@@ -17,6 +17,7 @@ project(alDbg)
 ## The compiled binaries will reside inside out/bin inside the binaryDir set in CMakePresets.json 
 ##
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/out/bin)
+set(BUILD_TESTS ON CACHE INTERNAL "Enable building tests for the debugger")
 #set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*,modernize-*")
 
 ##
@@ -57,6 +58,19 @@ endif()
 ## EXECUTABLE
 ## Building the debugger
 ##
-message(STATUS ${LINENOISE_SRC})
 add_executable(${PROJECT_NAME} ${ALDBG_SRC} ${LINENOISE_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${LINENOISE_INC_DIR} ${ALDBG_INC})
+
+##
+## TESTING
+## Building tests
+##
+if( BUILD_TESTS )
+    find_package(GTest CONFIG REQUIRED)
+    add_executable(Test-algdb ./tests/TestCommands.cpp)
+    target_link_libraries(Test-algdb PUBLIC GTest::gtest GTest::gtest_main)
+
+    include(CTest)
+    enable_testing()
+    add_test(NAME TestDebugger COMMAND Test-algdb)    
+endif()
