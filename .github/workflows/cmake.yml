@@ -6,31 +6,36 @@ on:
   pull_request:
     branches: [ "main" ]
 
+default:
+  run:
+    shell: bash
+    working-directory: scripts
+
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
 
 jobs:
   install-dependencies:
-    runs-on: ubuntu-latest
+    name: installing vcpkg
 
     steps :
-    -uses: actions/checkout@v3
+      - uses: actions/checkout@v3
     
-    -name: clone vcpkg
-     run: git clone https://github.com/microsoft/vcpkg
+      - name: clone vcpkg
+        run: git clone https://github.com/microsoft/vcpkg
     
-    -name: bootstrapping vcpkg
-     run: ~/vcpkg/vcpkg.out
+      - name: bootstrapping vcpkg
+        run: ~/vcpkg/vcpkg.out
   
   update-references:
-    runs-on: ubuntu-latest
+    name: Updating ubuntu packages
 
     steps:
-    -uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    -name: Git Sumbodule Update
-     run: git submodule update --init --recursive
+      - name: Git Sumbodule Update
+        run: git submodule update --init --recursive
   
   build:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
