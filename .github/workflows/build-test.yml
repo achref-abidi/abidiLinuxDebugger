@@ -36,13 +36,15 @@ jobs:
         chmod +x configVCPKG.sh
         ./configVCPKG.sh
 
-    - name: Configure CMake
+    - name: Configure CMake then build
       # automatic create build folders
-      run: cmake -S . --preset="debug-Makefiles"
+      run: |
+        chmod +x buildDebugForLinux.sh
+        ./buildDebugForLinux.sh
 
-    - name: Build
+    #- name: Build
       # Build your program with the given configuration
-      run: cmake --build . --preset="alDbg-debug-makefiles"
+    #  run: cmake --build . --preset="alDbg-debug-makefiles"
 
     #- name: Test
       #working-directory: ${{github.workspace}}/build
