@@ -33,9 +33,14 @@ jobs:
 
     - name: install vcpkg
       run: |
+        echo -- Clone the Git repository of vcpkg
         git clone https://github.com/microsoft/vcpkg ~/vcpkg
+        echo -- Bootstapping vcpkg
         ~/vcpkg/bootstrap-vcpkg.sh
-        ~/vcpkg/vcpkg
+        echo -- Add the installation directory to the user's PATH
+        echo "export PATH=\$PATH:$install_path" >> ~/.bashrc
+        echo "export VCPKG_ROOT=$install_path" >> ~/.bashrc
+        source ~/.bashrc
 
     - name: Configure CMake
       # automatic create build folders
