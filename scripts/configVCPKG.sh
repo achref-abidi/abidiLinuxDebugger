@@ -2,14 +2,14 @@
 
 # Set the installation path
 install_path=~/vcpkg
+echo "Installation Path of vcpkg is set to $install_path"
 
 # Clone the Git repository
 git clone https://github.com/microsoft/vcpkg $install_path
 
 retval=$?
-do_something $retval
 if [ $retval -ne 0 ]; then
-    echo "Return code was not zero but $retval"
+    echo "Error while cloning : Return code was not zero but $retval"
 fi
 
 # Bootstapping vcpkg
